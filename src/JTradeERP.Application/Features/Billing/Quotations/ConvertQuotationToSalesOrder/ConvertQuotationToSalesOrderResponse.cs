@@ -1,0 +1,4 @@
+using JTradeERP.Application.Features.Billing.Common;
+namespace JTradeERP.Application.Features.Billing.Quotations.ConvertQuotationToSalesOrder;
+
+public sealed record ConvertQuotationToSalesOrderResponse(SalesOrderDocumentResponse SalesOrder);

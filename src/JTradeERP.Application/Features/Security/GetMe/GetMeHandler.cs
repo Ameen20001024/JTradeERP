@@ -1,0 +1,4 @@
+using JTradeERP.Application.Common.Exceptions; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Security; using MediatR;
+namespace JTradeERP.Application.Features.Security.GetMe;
+public sealed class GetMeHandler(IApplicationDbContext db,ICurrentUserService current,IPermissionResolver permissions) : IRequestHandler<GetMeQuery,GetMeResponse>
+{ public async Task<GetMeResponse> Handle(GetMeQuery q,CancellationToken ct){var id=current.UserId??throw new NotFoundException("Current user was not found.");var u=db.Users.SingleOrDefault(x=>x.Id==id&&x.IsActive)??throw new NotFoundException("Current user was not found.");var roles=(from ur in db.UserRoles join r in db.Roles on ur.RoleId equals r.Id where ur.UserId==id select r.Name).ToArray();return new(id,u.UserName,u.Email,roles,await permissions.GetEffectivePermissionsAsync(id,ct));} }

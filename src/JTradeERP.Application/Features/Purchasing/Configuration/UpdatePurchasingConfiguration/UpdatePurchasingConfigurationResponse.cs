@@ -1,0 +1,3 @@
+namespace JTradeERP.Application.Features.Purchasing.Configuration.UpdatePurchasingConfiguration;
+
+public sealed record UpdatePurchasingConfigurationResponse(bool AllowOverReceipt, string RowVersion);

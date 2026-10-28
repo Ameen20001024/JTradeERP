@@ -1,0 +1,3 @@
+using MediatR;using JTradeERP.Application.Common.Persistence;using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.Customers.GetCustomerById;
+public sealed class GetCustomerByIdHandler(IApplicationDbContext db):IRequestHandler<GetCustomerByIdQuery,GetCustomerByIdResponse>{public Task<GetCustomerByIdResponse> Handle(GetCustomerByIdQuery r,CancellationToken ct){var e=db.Customers.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Customer not found.");return Task.FromResult(new GetCustomerByIdResponse(e.Id,e.CustomerCode,e.Name,e.BillingAddress,e.ShippingAddress,e.Phone,e.Email,e.TRN,e.CreditLimit));}}

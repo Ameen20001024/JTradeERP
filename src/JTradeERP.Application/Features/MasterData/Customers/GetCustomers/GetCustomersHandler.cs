@@ -1,0 +1,3 @@
+using MediatR;using JTradeERP.Application.Common.Persistence;
+namespace JTradeERP.Application.Features.MasterData.Customers.GetCustomers;
+public sealed class GetCustomersHandler(IApplicationDbContext db):IRequestHandler<GetCustomersQuery,IReadOnlyList<GetCustomersResponse>>{public Task<IReadOnlyList<GetCustomersResponse>> Handle(GetCustomersQuery r,CancellationToken ct)=>Task.FromResult<IReadOnlyList<GetCustomersResponse>>(db.Customers.OrderBy(x=>x.CustomerCode).Select(e=>new GetCustomersResponse(e.Id,e.CustomerCode,e.Name,e.BillingAddress,e.ShippingAddress,e.Phone,e.Email,e.TRN,e.CreditLimit)).ToList());}

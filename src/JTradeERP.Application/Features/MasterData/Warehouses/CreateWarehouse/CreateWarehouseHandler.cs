@@ -1,0 +1,3 @@
+using MediatR;using JTradeERP.Application.Common.Persistence;using JTradeERP.Application.Common.Exceptions;using JTradeERP.Domain.MasterData;
+namespace JTradeERP.Application.Features.MasterData.Warehouses.CreateWarehouse;
+public sealed class CreateWarehouseHandler(IApplicationDbContext db):IRequestHandler<CreateWarehouseCommand,CreateWarehouseResponse>{public async Task<CreateWarehouseResponse> Handle(CreateWarehouseCommand r,CancellationToken ct){if(db.Warehouses.Any(x=>x.WarehouseCode==r.WarehouseCode.Trim()))throw new ConflictException("Warehouse code already exists.");var e=new Warehouse(r.WarehouseCode,r.Name);db.Add(e);await db.SaveChangesAsync(ct);return new(e.Id,e.WarehouseCode,e.Name,e.IsActive);}}

@@ -1,0 +1,2 @@
+namespace JTradeERP.Application.Features.Inventory.WarehouseNegativeStock.UpdateWarehouseNegativeStockSetting;
+public sealed record UpdateWarehouseNegativeStockSettingResponse(Guid WarehouseId,string WarehouseCode,bool AllowNegativeStock);

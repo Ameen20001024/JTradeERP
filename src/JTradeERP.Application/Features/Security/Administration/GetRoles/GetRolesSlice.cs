@@ -1,0 +1,5 @@
+using MediatR; using JTradeERP.Application.Common.Persistence;
+namespace JTradeERP.Application.Features.Security.Administration.GetRoles;
+public sealed record GetRolesQuery(string? Search=null):IRequest<GetRolesResponse>; public sealed record RoleListItemResponse(Guid Id,string Name); public sealed record GetRolesResponse(IReadOnlyCollection<RoleListItemResponse> Items);
+public sealed class GetRolesHandler(IApplicationDbContext db):IRequestHandler<GetRolesQuery,GetRolesResponse>{public Task<GetRolesResponse> Handle(GetRolesQuery r,CancellationToken ct){var q=db.Roles.AsEnumerable();if(!string.IsNullOrWhiteSpace(r.Search))q=q.Where(x=>x.Name.Contains(r.Search,StringComparison.OrdinalIgnoreCase));return Task.FromResult(new GetRolesResponse(q.OrderBy(x=>x.Name).Select(x=>new RoleListItemResponse(x.Id,x.Name)).ToArray()));}}
+public static class GetRolesEndpoint{public static void Map(IEndpointRouteBuilder e)=>e.MapGet("/roles",async(string? search,ISender s,CancellationToken t)=>Results.Ok(await s.Send(new GetRolesQuery(search),t))).RequirePermission("Admin.Roles.Manage",Capability.Full);}

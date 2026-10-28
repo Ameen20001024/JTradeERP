@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/JTradeERP.Api/JTradeERP.Api.csproj" />
+    <Project Path="src/JTradeERP.Application/JTradeERP.Application.csproj" />
+    <Project Path="src/JTradeERP.Domain/JTradeERP.Domain.csproj" />
+    <Project Path="src/JTradeERP.Infrastructure/JTradeERP.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/JTradeERP.Api.IntegrationTests/JTradeERP.Api.IntegrationTests.csproj" />
+    <Project Path="tests/JTradeERP.Application.UnitTests/JTradeERP.Application.UnitTests.csproj" />
+    <Project Path="tests/JTradeERP.ArchitectureTests/JTradeERP.ArchitectureTests.csproj" />
+  </Folder>
+</Solution>

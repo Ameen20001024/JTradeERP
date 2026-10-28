@@ -1,0 +1,7 @@
+using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Security; using JTradeERP.Domain.Security; using Microsoft.EntityFrameworkCore;
+namespace JTradeERP.Infrastructure.Security;
+public sealed class PermissionResolver(IApplicationDbContext db) : IPermissionResolver
+{
+ public async Task<bool> HasCapabilityAsync(Guid id,string code,Capability required,CancellationToken ct){var u=await db.Users.SingleOrDefaultAsync(x=>x.Id==id,ct);if(u is null||!u.IsActive)return false;var auditor=await(from ur in db.UserRoles join r in db.Roles on ur.RoleId equals r.Id where ur.UserId==id&&r.Name=="Auditor" select ur).AnyAsync(ct);if(auditor&&required!=Capability.View)return false;var granted=await(from ur in db.UserRoles join rp in db.RolePermissions on ur.RoleId equals rp.RoleId join p in db.Permissions on rp.PermissionId equals p.Id where ur.UserId==id&&p.Code==code select rp.Capability).ToListAsync(ct);return granted.Any(x=>x==Capability.Full||x==required||(required==Capability.View&&x==Capability.CreateEdit));}
+ public async Task<IReadOnlyCollection<EffectivePermission>> GetEffectivePermissionsAsync(Guid id,CancellationToken ct)=>await(from ur in db.UserRoles join rp in db.RolePermissions on ur.RoleId equals rp.RoleId join p in db.Permissions on rp.PermissionId equals p.Id where ur.UserId==id select new EffectivePermission(p.Code,rp.Capability)).ToListAsync(ct);
+}

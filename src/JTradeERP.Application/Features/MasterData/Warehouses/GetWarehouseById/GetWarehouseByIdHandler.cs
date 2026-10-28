@@ -1,0 +1,3 @@
+using MediatR;using JTradeERP.Application.Common.Persistence;using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.Warehouses.GetWarehouseById;
+public sealed class GetWarehouseByIdHandler(IApplicationDbContext db):IRequestHandler<GetWarehouseByIdQuery,GetWarehouseByIdResponse>{public Task<GetWarehouseByIdResponse> Handle(GetWarehouseByIdQuery r,CancellationToken ct){var e=db.Warehouses.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Warehouse not found.");return Task.FromResult(new GetWarehouseByIdResponse(e.Id,e.WarehouseCode,e.Name,e.IsActive));}}

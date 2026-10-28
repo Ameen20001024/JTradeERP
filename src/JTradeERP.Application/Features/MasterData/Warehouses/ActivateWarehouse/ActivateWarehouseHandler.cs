@@ -1,0 +1,3 @@
+using MediatR;using JTradeERP.Application.Common.Persistence;using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.Warehouses.ActivateWarehouse;
+public sealed class ActivateWarehouseHandler(IApplicationDbContext db):IRequestHandler<ActivateWarehouseCommand,ActivateWarehouseResponse>{public async Task<ActivateWarehouseResponse> Handle(ActivateWarehouseCommand r,CancellationToken ct){var e=db.Warehouses.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Warehouse not found.");e.Activate();await db.SaveChangesAsync(ct);return new(e.Id,e.WarehouseCode,e.Name,e.IsActive);}}

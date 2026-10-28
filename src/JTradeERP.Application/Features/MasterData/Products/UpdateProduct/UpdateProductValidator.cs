@@ -1,0 +1,3 @@
+using FluentValidation;
+namespace JTradeERP.Application.Features.MasterData.Products.UpdateProduct;
+public sealed class UpdateProductValidator : AbstractValidator<UpdateProductCommand> { public UpdateProductValidator() { RuleFor(x=>x.Id).NotEmpty(); RuleFor(x=>x.ProductCode).NotEmpty().MaximumLength(50); RuleFor(x=>x.Name).NotEmpty().MaximumLength(200); RuleFor(x=>x.CategoryId).NotEmpty(); RuleFor(x=>x.StockUomId).NotEmpty(); RuleFor(x=>x.TaxCodeId).NotEmpty(); RuleFor(x=>x.MinimumStockLevel).GreaterThanOrEqualTo(0); RuleFor(x=>x.ReorderQuantity).GreaterThanOrEqualTo(0); RuleFor(x=>x.SalesPrice).GreaterThanOrEqualTo(0); RuleFor(x=>x.PurchasePrice).GreaterThanOrEqualTo(0); } }

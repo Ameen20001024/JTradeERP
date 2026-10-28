@@ -1,0 +1,3 @@
+using MediatR;
+namespace JTradeERP.Application.Features.Inventory.WarehouseNegativeStock.UpdateWarehouseNegativeStockSetting;
+public sealed record UpdateWarehouseNegativeStockSettingCommand(Guid Id,bool AllowNegativeStock):IRequest<UpdateWarehouseNegativeStockSettingResponse>;

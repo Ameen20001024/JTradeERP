@@ -1,0 +1,3 @@
+using FluentValidation;
+namespace JTradeERP.Application.Features.Inventory.WarehouseNegativeStock.UpdateWarehouseNegativeStockSetting;
+public sealed class UpdateWarehouseNegativeStockSettingValidator:AbstractValidator<UpdateWarehouseNegativeStockSettingCommand>{public UpdateWarehouseNegativeStockSettingValidator()=>RuleFor(x=>x.Id).NotEmpty();}

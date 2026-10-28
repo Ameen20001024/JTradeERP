@@ -1,0 +1,1 @@
+using MediatR;namespace JTradeERP.Application.Features.Billing.NumberSeries.UpdateNumberSeries;public sealed record UpdateNumberSeriesCommand(Guid Id,string DocumentType,string Prefix,long NextNumber,int Padding):IRequest<UpdateNumberSeriesResponse>;

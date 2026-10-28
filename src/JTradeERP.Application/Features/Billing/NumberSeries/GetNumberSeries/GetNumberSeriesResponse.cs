@@ -1,0 +1,1 @@
+using JTradeERP.Application.Features.Billing.NumberSeries.Common;namespace JTradeERP.Application.Features.Billing.NumberSeries.GetNumberSeries;public sealed record GetNumberSeriesResponse(IReadOnlyList<NumberSeriesResponse> Items);

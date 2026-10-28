@@ -1,0 +1,1 @@
+using JTradeERP.Application.Features.Billing.NumberSeries.Common;namespace JTradeERP.Application.Features.Billing.NumberSeries.UpdateNumberSeries;public sealed record UpdateNumberSeriesResponse(NumberSeriesResponse NumberSeries);

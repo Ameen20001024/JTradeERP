@@ -1,0 +1,3 @@
+using MediatR; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.Products.DeactivateProduct;
+public sealed class DeactivateProductHandler(IApplicationDbContext db):IRequestHandler<DeactivateProductCommand,DeactivateProductResponse>{public async Task<DeactivateProductResponse> Handle(DeactivateProductCommand r,CancellationToken ct){var e=db.Products.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Product not found.");e.Deactivate();await db.SaveChangesAsync(ct);return new(e.Id,e.ProductCode,e.Name,e.IsActive);}}

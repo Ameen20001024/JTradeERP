@@ -1,0 +1,3 @@
+using MediatR; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.TaxCodes.ActivateTaxCode;
+public sealed class ActivateTaxCodeHandler(IApplicationDbContext db) : IRequestHandler<ActivateTaxCodeCommand,ActivateTaxCodeResponse> { public async Task<ActivateTaxCodeResponse> Handle(ActivateTaxCodeCommand r,CancellationToken ct) { var e=db.TaxCodes.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Tax code not found."); e.Activate(); await db.SaveChangesAsync(ct); return new(e.Id,e.Code,e.Name,e.Rate,e.TaxType,e.IsActive); } }

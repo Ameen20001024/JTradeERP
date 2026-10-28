@@ -1,0 +1,5 @@
+using JTradeERP.Application.Features.Purchasing.Common;
+
+namespace JTradeERP.Application.Features.Purchasing.GoodsReceiptNotes.CreateGoodsReceiptNote;
+
+public sealed record CreateGoodsReceiptNoteResponse(GoodsReceiptNoteDetailsResponse GoodsReceiptNote);

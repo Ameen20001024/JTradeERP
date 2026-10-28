@@ -1,0 +1,3 @@
+using MediatR; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.TaxCodes.GetTaxCodeById;
+public sealed class GetTaxCodeByIdHandler(IApplicationDbContext db) : IRequestHandler<GetTaxCodeByIdQuery, GetTaxCodeByIdResponse> { public Task<GetTaxCodeByIdResponse> Handle(GetTaxCodeByIdQuery r,CancellationToken ct) { var e=db.TaxCodes.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Tax code not found."); return Task.FromResult(new GetTaxCodeByIdResponse(e.Id,e.Code,e.Name,e.Rate,e.TaxType,e.IsActive)); } }

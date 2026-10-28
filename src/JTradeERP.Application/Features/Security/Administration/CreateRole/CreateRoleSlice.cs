@@ -1,0 +1,6 @@
+using FluentValidation; using JTradeERP.Application.Common.Exceptions; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Security; using JTradeERP.Domain.Security; using MediatR;
+namespace JTradeERP.Application.Features.Security.Administration.CreateRole;
+public sealed record CreateRoleCommand(string Name):IRequest<CreateRoleResponse>; public sealed record CreateRoleResponse(Guid Id,string Name);
+public sealed class CreateRoleValidator:AbstractValidator<CreateRoleCommand>{public CreateRoleValidator()=>RuleFor(x=>x.Name).NotEmpty().MaximumLength(100);}
+public sealed class CreateRoleHandler(IApplicationDbContext db,ICurrentUserService actor):IRequestHandler<CreateRoleCommand,CreateRoleResponse>{public async Task<CreateRoleResponse> Handle(CreateRoleCommand r,CancellationToken ct){if(db.Roles.Any(x=>x.Name==r.Name.Trim()))throw new ConflictException("Role name already exists.");var role=new Role(r.Name);db.Add(role);SecurityAuditWriter.Add(db,actor.UserId,"RoleCreated","Role",role.Id.ToString(),null,role.Name);await db.SaveChangesAsync(ct);return new(role.Id,role.Name);}}
+public static class CreateRoleEndpoint{public static void Map(IEndpointRouteBuilder e)=>e.MapPost("/roles",async(CreateRoleCommand c,ISender s,CancellationToken t)=>Results.Ok(await s.Send(c,t))).RequirePermission("Admin.Roles.Manage",Capability.Full);}

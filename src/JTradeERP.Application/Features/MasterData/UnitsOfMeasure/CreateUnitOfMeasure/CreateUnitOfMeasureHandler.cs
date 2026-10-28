@@ -1,0 +1,3 @@
+using MediatR; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Exceptions; using JTradeERP.Domain.MasterData;
+namespace JTradeERP.Application.Features.MasterData.UnitsOfMeasure.CreateUnitOfMeasure;
+public sealed class CreateUnitOfMeasureHandler(IApplicationDbContext db) : IRequestHandler<CreateUnitOfMeasureCommand,CreateUnitOfMeasureResponse> { public async Task<CreateUnitOfMeasureResponse> Handle(CreateUnitOfMeasureCommand r,CancellationToken ct){if(db.UnitsOfMeasure.Any(x=>x.Code==r.Code.Trim()||x.Name==r.Name.Trim()))throw new ConflictException("Unit of Measure already exists.");var e=new UnitOfMeasure(r.Code,r.Name);db.Add(e);await db.SaveChangesAsync(ct);return new(e.Id,e.Code,e.Name);} }

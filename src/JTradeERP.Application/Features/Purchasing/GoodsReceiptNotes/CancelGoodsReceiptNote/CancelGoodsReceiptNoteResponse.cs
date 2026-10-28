@@ -1,0 +1,5 @@
+using JTradeERP.Application.Features.Purchasing.Common;
+
+namespace JTradeERP.Application.Features.Purchasing.GoodsReceiptNotes.CancelGoodsReceiptNote;
+
+public sealed record CancelGoodsReceiptNoteResponse(GoodsReceiptNoteDetailsResponse GoodsReceiptNote);

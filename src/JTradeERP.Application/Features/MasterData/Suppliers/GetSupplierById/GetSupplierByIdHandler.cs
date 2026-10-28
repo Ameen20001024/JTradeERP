@@ -1,0 +1,3 @@
+using MediatR;using JTradeERP.Application.Common.Persistence;using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.Suppliers.GetSupplierById;
+public sealed class GetSupplierByIdHandler(IApplicationDbContext db):IRequestHandler<GetSupplierByIdQuery,GetSupplierByIdResponse>{public Task<GetSupplierByIdResponse> Handle(GetSupplierByIdQuery r,CancellationToken ct){var e=db.Suppliers.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Supplier not found.");return Task.FromResult(new GetSupplierByIdResponse(e.Id,e.SupplierCode,e.Name,e.Address,e.ContactInformation,e.PaymentTerms,e.TRN));}}

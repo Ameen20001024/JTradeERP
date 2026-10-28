@@ -1,0 +1,3 @@
+using JTradeERP.Application.Common.Inventory;
+namespace JTradeERP.Application.Features.Inventory.Adjustments.ReverseStockAdjustment;
+public sealed record ReverseStockAdjustmentResponse(StockAdjustmentItemResponse Adjustment,Guid ReversalLedgerEntryId,Guid OriginalLedgerEntryId);

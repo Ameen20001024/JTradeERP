@@ -1,0 +1,3 @@
+using MediatR; using JTradeERP.Application.Common.Persistence;
+namespace JTradeERP.Application.Features.MasterData.Products.GetProducts;
+public sealed class GetProductsHandler(IApplicationDbContext db):IRequestHandler<GetProductsQuery,IReadOnlyList<GetProductsResponse>>{public Task<IReadOnlyList<GetProductsResponse>> Handle(GetProductsQuery r,CancellationToken ct)=>Task.FromResult<IReadOnlyList<GetProductsResponse>>(db.Products.OrderBy(x=>x.ProductCode).Select(e=>new GetProductsResponse(e.Id,e.ProductCode,e.Name,e.CategoryId,e.StockUomId,e.TaxCodeId,e.MinimumStockLevel,e.ReorderQuantity,e.SalesPrice,e.PurchasePrice,e.IsActive)).ToList());}

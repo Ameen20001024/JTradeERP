@@ -1,0 +1,5 @@
+using FluentValidation;
+
+namespace JTradeERP.Application.Features.Purchasing.Configuration.UpdatePurchasingConfiguration;
+
+public sealed class UpdatePurchasingConfigurationValidator : AbstractValidator<UpdatePurchasingConfigurationCommand>;

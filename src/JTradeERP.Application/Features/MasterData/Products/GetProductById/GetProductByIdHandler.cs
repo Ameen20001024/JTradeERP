@@ -1,0 +1,3 @@
+using MediatR; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Exceptions;
+namespace JTradeERP.Application.Features.MasterData.Products.GetProductById;
+public sealed class GetProductByIdHandler(IApplicationDbContext db):IRequestHandler<GetProductByIdQuery,GetProductByIdResponse>{public Task<GetProductByIdResponse> Handle(GetProductByIdQuery r,CancellationToken ct){var e=db.Products.SingleOrDefault(x=>x.Id==r.Id)??throw new NotFoundException("Product not found.");return Task.FromResult(new GetProductByIdResponse(e.Id,e.ProductCode,e.Name,e.CategoryId,e.StockUomId,e.TaxCodeId,e.MinimumStockLevel,e.ReorderQuantity,e.SalesPrice,e.PurchasePrice,e.IsActive));}}

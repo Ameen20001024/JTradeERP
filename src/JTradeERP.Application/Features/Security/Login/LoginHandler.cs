@@ -1,0 +1,6 @@
+using JTradeERP.Application.Common.Exceptions; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Security; using JTradeERP.Domain.Security; using MediatR; using Microsoft.Extensions.Options;
+namespace JTradeERP.Application.Features.Security.Login;
+public sealed class LoginHandler(IApplicationDbContext db, IPasswordService passwords, ITokenService tokens, IClock clock, IOptions<SecurityOptions> options, IRefreshTokenCookie cookie) : IRequestHandler<LoginCommand, LoginResponse>
+{
+ public async Task<LoginResponse> Handle(LoginCommand r,CancellationToken ct){var u=db.Users.SingleOrDefault(x=>x.UserName==r.UserName.Trim());if(u is null||!u.IsActive||!passwords.Verify(u.PasswordHash,r.Password))throw new AuthenticationFailureException();var roles=(from ur in db.UserRoles join role in db.Roles on ur.RoleId equals role.Id where ur.UserId==u.Id select role.Name).ToArray();var access=tokens.CreateAccessToken(u,roles);var raw=tokens.CreateOpaqueToken();var now=clock.UtcNow;var expiry=now.AddDays(options.Value.RefreshTokenDays);db.Add(new RefreshToken(u.Id,tokens.HashOpaqueToken(raw),now,expiry));SecurityAuditWriter.Add(db,u.Id,"LoginSucceeded","User",u.Id.ToString(),null,"authenticated");await db.SaveChangesAsync(ct);cookie.Write(raw,expiry);return new(access.AccessToken,access.ExpiresAt,new(u.Id,u.UserName,u.Email,roles));}
+}

@@ -1,0 +1,3 @@
+using JTradeERP.Application.Common.Inventory;
+namespace JTradeERP.Application.Features.Inventory.Adjustments.CreateStockAdjustment;
+public sealed record CreateStockAdjustmentResponse(StockAdjustmentItemResponse Adjustment);

@@ -1,0 +1,3 @@
+using MediatR; using JTradeERP.Application.Common.Persistence; using JTradeERP.Application.Common.Exceptions; using JTradeERP.Domain.MasterData;
+namespace JTradeERP.Application.Features.MasterData.TaxCodes.CreateTaxCode;
+public sealed class CreateTaxCodeHandler(IApplicationDbContext db) : IRequestHandler<CreateTaxCodeCommand, CreateTaxCodeResponse> { public async Task<CreateTaxCodeResponse> Handle(CreateTaxCodeCommand r, CancellationToken ct) { if (db.TaxCodes.Any(x => x.Code == r.Code.Trim())) throw new ConflictException("Tax code already exists."); var e = new TaxCode(r.Code, r.Name, r.Rate, r.TaxType, r.IsActive); db.Add(e); await db.SaveChangesAsync(ct); return new(e.Id,e.Code,e.Name,e.Rate,e.TaxType,e.IsActive); } }

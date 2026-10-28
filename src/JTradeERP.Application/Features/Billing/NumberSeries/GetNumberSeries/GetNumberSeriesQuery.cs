@@ -1,0 +1,1 @@
+using MediatR;namespace JTradeERP.Application.Features.Billing.NumberSeries.GetNumberSeries;public sealed record GetNumberSeriesQuery:IRequest<GetNumberSeriesResponse>;
